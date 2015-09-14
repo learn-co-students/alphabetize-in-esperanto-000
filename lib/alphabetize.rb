@@ -1,113 +1,58 @@
-require 'pry'
-
-def compare_strings(current, new_string)
-result_array = nil
-  esperanto_alphabet = "abcĉdefgĝhĥijĵklmnoprsŝtuŭvz"
-  alphabet_array = esperanto_alphabet.split("")
-
-  i = 0
-  which_one = ""
-  while i < current.length
-    # do nothing
-    if current[i] != new_string[i]
-      alphabet_array.each do |letter|
-
-        if current[i] == letter
-          result_array = "#{current}, #{new_string}"
-          return result_array
-        elsif new_string[i] == letter
-          result_array = "#{new_string}, #{current}"
-          return result_array
-        end
-
-    end
-    
-
-    end
-    i += 1
-    
+def make_word_hash(word_array)
+  #creates hash from words to be alphabetized.
+  word_hash = {}
+  word_array.each do |word|
+     word_hash[word] = []
   end
+word_hash
+end
 
+def alpha_hash(string)
+  #turns string into hash with values as numbers
+ az_hash = {}
+ az_hash[" "] = 0
+ string.split("").each_with_index do |letter, i|
+   az_hash[letter] = i+1
+  end
+  az_hash
+end 
 
+def set_word_hash_values(a_to_z_hash, wordhash)
+  #sets values of word hash to array of numbers
+ wordhash.each do |word, value|
+   word.split("").each do |letter|
+     wordhash[word] << a_to_z_hash[letter]
+   end
+ end
+end
 
-  
+def sort_words(wordhash)
+  #sorts words by numbers array (word => [3, 8, 2, 1])
+
+new_hash = wordhash.sort_by{ |word, value| value}
+new_hash = return_all_keys(new_hash)
 
 end
+
+def return_all_keys(hash)
+ keys_array = []
+ hash.each do |keys, value|
+    keys_array << keys
+    end
+    keys_array
+end
+
 
 def alphabetize(arr)
-  # code here
-  #1. get word from array and put it in new_array
-  #2. if word starts with same letter as a a word in new_array compare the two words by letters
 
+alphabet = "abcĉdefgĝhĥijĵklmnoprsŝtuŭvz"
 
-  result_array = []
-  esperanto_alphabet = "abcĉdefgĝhĥijĵklmnoprsŝtuŭvz"
-  alphabet_array = esperanto_alphabet.split("")
+a_to_z_hash = alpha_hash(alphabet) #turns alphabet into hash with values as numbers
+word_hash = make_word_hash(arr) #creates hash from words to be alphabetized.
+word_hash = set_word_hash_values(a_to_z_hash, word_hash) #sets values of word hash to array of #'s'
+words = sort_words(word_hash) #sorts words
 
-  alphabet_array.each do |letter|
-
-    arr.each do |phrase|
-      if phrase[0] == letter
-        result_array << phrase
-      end
-    end
-  end
-  result_array
-
-  #take result_array and compare if same letters
-
-  final_array = []
-  result_array.each_with_index do |word, index| 
-
-      if index > 0
-        i = 0
-        while i < word.length
-          previous_word = result_array[index-1]
-          
-          unless previous_word[i] == word[i]
-            final_array << word
-            i = word.length
-          else
-            #compare the two strings
-            final_array.pop
-            final_array << compare_strings(previous_word, word)
-            
-
-          end
-
-          i += 1
-
-        end
-      else
-        final_array << word 
-      end  
-  end
-  
 end
-  
 
 
-
-
-
-
-
-#PHASE 1
-# def alphabetize(arr)
-#   # code here
-
-#   result_array = []
-#   esperanto_alphabet = "abcĉdefgĝhĥijĵklmnoprsŝtuŭvz"
-#   alphabet_array = esperanto_alphabet.split("")
-
-#   alphabet_array.each do |letter|
-
-#     arr.each do |phrase|
-#       if phrase[0] == letter
-#         result_array << phrase
-#       end
-#     end
-#   end
-#   result_array
-# end
-#   
+# words = sort_words(word_hash)
